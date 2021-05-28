@@ -62,6 +62,8 @@ const (
 	IncreaseIssuanceRatioLowerLimit   = 0
 
 	// When electing consensus nodes, it is used to calculate the P value of the binomial distribution
+	ElectionBase = 30	// New expectations
+
 	ElectionBaseL1 = 3000
 	ElectionBaseL2 = 6000
 )
@@ -926,4 +928,8 @@ func CalcP(totalWeight float64, sqrtWeight float64) float64 {
 	} else {
 		return float64(ElectionBaseL2) / sqrtWeight
 	}
+}
+
+func CalcPNew(totalWeight float64, sqrtWeight float64) float64 {
+	return float64(ElectionBase) / sqrtWeight
 }
