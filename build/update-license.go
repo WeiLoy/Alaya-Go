@@ -60,6 +60,12 @@ var (
 		"contracts/chequebook/contract/code.go",
 	}
 
+	executePrefixes = []string{
+		"x/", "core/snapshotdb/", "core/cbfttypes/", "consensus/cbft/",
+		"common/vm", "common/consensus/", "common/byteutil/", "cmd/ctool/",
+		"cmd/ppos_tool/",
+	}
+
 	// paths with this prefix are licensed as GPL. all other files are LGPL.
 	gplPrefixes = []string{"cmd/"}
 
@@ -74,7 +80,7 @@ var (
 // this template generates the license comment.
 // its input is an info structure.
 var licenseT = template.Must(template.New("").Parse(`
-// Copyright {{.Year}} The Alaya-Go Authors
+// Copyright 2021 The Alaya Network Authors
 // This file is part of {{.Whole false}}.
 //
 // {{.Whole true}} is free software: you can redistribute it and/or modify
@@ -163,12 +169,17 @@ func skipFile(path string) bool {
 	if strings.Contains(path, "/testdata/") {
 		return true
 	}
-	for _, p := range skipPrefixes {
+	/*for _, p := range skipPrefixes {
 		if strings.HasPrefix(path, p) {
 			return true
 		}
+	}*/
+	for _, p := range executePrefixes {
+		if strings.HasPrefix(path, p) {
+			return false
+		}
 	}
-	return false
+	return true
 }
 
 func getFiles() []string {
